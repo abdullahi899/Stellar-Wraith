@@ -1,57 +1,24 @@
 #include "threepp/threepp.hpp"
 
-#include "threepp/extras/imgui/ImguiContext.hpp"
-
 using namespace threepp;
 
-namespace {
-
-    auto createMesh() {
-        const auto geometry = BoxGeometry::create();
-        const auto material = MeshBasicMaterial::create();
-        material->color = Color::green;
-
-        auto mesh = Mesh::create(geometry, material);
-
-        return mesh;
-    }
-
-}
-
 int main() {
-
-    Canvas canvas;
+    // Create the rendering window
+    Canvas canvas("Black Background Example");
     GLRenderer renderer{canvas.size()};
+    renderer.setClearColor(Color::black); // Set the background color to black
 
-    PerspectiveCamera camera(60, canvas.aspect(), 0.1, 1000);
-    camera.position.z = 5;
+    // Set up the scene and camera
+    auto scene = Scene::create();
+    auto camera = PerspectiveCamera::create(75, canvas.aspect(), 0.1f, 1000);
+    camera->position.z = 5;
 
-    Scene scene;
-    scene.background = Color::aliceblue;
-
-    auto mesh = createMesh();
-    scene.add(mesh);
-
-    bool& meshVisible = mesh->visible;
-
-    ImguiFunctionalContext ui(canvas.windowPtr(), [&meshVisible] {
-        ImGui::SetNextWindowPos({}, 0, {});
-               ImGui::SetNextWindowSize({230, 0}, 0);
-               ImGui::Begin("Mesh settings");
-               ImGui::Checkbox("Visible", &meshVisible);
-
-               ImGui::End();
+    // Render loop
+    canvas.animate([&]() {
+        renderer.render(*scene, *camera); // Render the scene with a black background
     });
-    // ui.makeDpiAware(); // to increase imgui size on high DPI screens
 
-    Clock clock;
-    float rotationSpeed = 0.5f;
-    canvas.animate([&] {
-        const auto dt = clock.getDelta();
-
-        mesh->rotation.y += rotationSpeed * dt;
-
-        renderer.render(scene, camera);
-        ui.render();
-    });
+    return 0;
 }
+
+

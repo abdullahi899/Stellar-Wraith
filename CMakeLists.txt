@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(threepp_imgui_demo)
+project(Astroids_v3)
 
 set(CMAKE_CXX_STANDARD 20)
 

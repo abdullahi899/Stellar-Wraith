@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(Astroids_v3)
+project(Astroids2)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -14,7 +14,10 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(threepp)
 
-add_subdirectory(external)
+add_executable(threepp_v1 main.cpp astroids.cpp
+        "keys for movment.hpp"
+        astroids.cpp
+        "keys for movment.hpp")
+target_link_libraries(threepp_v1 PRIVATE threepp::threepp)
 
-add_executable(threepp_demo main.cpp)
-target_link_libraries(threepp_demo PRIVATE threepp::threepp imgui::imgui)
+
